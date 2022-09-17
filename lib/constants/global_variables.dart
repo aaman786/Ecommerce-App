@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-
-String uri = 'http://192.168.156.244:3000';
+String uri = 'http://192.168.0.244:3000';
 
 class GlobalVariables {
+  // SEIZED BOX
+  static const kSizedBoxOfHeight10 = SizedBox(height: 10);
+  static const kSizedBoxOfHeight15 = SizedBox(height: 15);
+  static const kSizedBoxOfHeight30 = SizedBox(height: 39);
+
   // COLORS
   static const appBarGradient = LinearGradient(
     colors: [

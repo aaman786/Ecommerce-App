@@ -1,18 +1,18 @@
 import 'dart:convert';
-
+import 'package:amazone_clone/common/widgets/custom_bottom_bar.dart';
 import 'package:amazone_clone/constants/error_handling.dart';
 import 'package:amazone_clone/constants/global_variables.dart';
 import 'package:amazone_clone/constants/utils.dart';
 import 'package:amazone_clone/provider/user_provider.dart';
-import 'package:amazone_clone/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/user.dart';
-import '../constants/global_variables.dart';
+import '../../../models/user.dart';
+
 
 class AuthService {
+
   void signUpUser(
       {required String email,
       required BuildContext context,
@@ -62,9 +62,10 @@ class AuthService {
                 .setUser(response.body);
             await prefs.setString(
                 'x-auth-token', jsonDecode(response.body)['token']);
+            // ignore: use_build_context_synchronously
             Navigator.pushNamedAndRemoveUntil(
               context,
-              HomeScreen.routeName,
+              CustomBottomBar.routeName,
               (route) => false,
             );
           });

@@ -69,6 +69,7 @@ authRouter.post("/tokenIsValid", async (req, res) => {
 });
 
 // getting user data
+// midleware is used here ..auth
 authRouter.get("/", auth, async (req, res) => {
   const user = await User.findById(req.user);
   res.json({ ...user._doc, token: req.token });
