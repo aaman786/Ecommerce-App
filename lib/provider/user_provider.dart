@@ -1,4 +1,4 @@
-import 'package:amazone_clone/models/user.dart';
+import 'package:amazone_clone/models/user_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -9,12 +9,18 @@ class UserProvider extends ChangeNotifier {
       password: '',
       address: '',
       type: '',
-      token: '');
+      token: '',
+      cart: []);
 
   User get user => _user;
 
   void setUser(String user) {
     _user = User.fromJson(user);
+    notifyListeners();
+  }
+
+  void setUserFromModel(User user) {
+    _user = user;
     notifyListeners();
   }
 }

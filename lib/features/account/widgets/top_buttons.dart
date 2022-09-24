@@ -1,15 +1,11 @@
+import 'package:amazone_clone/features/account/services/account_servicecs.dart';
 import 'package:flutter/material.dart';
 
-class TopButtons extends StatefulWidget {
+class TopButtons extends StatelessWidget {
   const TopButtons({Key? key}) : super(key: key);
-
-  @override
-  State<TopButtons> createState() => _TopButtonsState();
-}
-
-class _TopButtonsState extends State<TopButtons> {
   @override
   Widget build(BuildContext context) {
+    final AccountServices accountServices = AccountServices();
     return Column(
       children: [
         Row(
@@ -21,7 +17,10 @@ class _TopButtonsState extends State<TopButtons> {
         const SizedBox(height: 10),
         Row(
           children: [
-            customOutlinedButton('Log Out', () {}),
+            customOutlinedButton(
+              'Log Out',
+              () => accountServices.logOut(context),
+            ),
             customOutlinedButton('Your WishList', () {}),
           ],
         ),

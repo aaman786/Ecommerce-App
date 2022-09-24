@@ -1,7 +1,7 @@
 import 'package:amazone_clone/common/widgets/custom_loading_indicator.dart';
 import 'package:amazone_clone/features/account/widgets/single_product.dart';
 import 'package:amazone_clone/features/admin/add%20product/screens/add_product_screen.dart';
-import 'package:amazone_clone/features/admin/models/product_model.dart';
+import 'package:amazone_clone/models/product_model.dart';
 import 'package:amazone_clone/features/admin/services/admin_services.dart';
 import 'package:amazone_clone/provider/admin-providers/products_provider.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +69,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             height: 140,
                             child: SingleProduct(
                               image: productData.images[0],
+                              // image: productData.image![0].imageUrl,
                             ),
                           ),
                           Row(

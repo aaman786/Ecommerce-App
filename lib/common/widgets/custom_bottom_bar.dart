@@ -1,7 +1,10 @@
 import 'package:amazone_clone/constants/global_variables.dart';
 import 'package:amazone_clone/features/account/screens/acc_screen.dart';
+import 'package:amazone_clone/features/cart/screens/cart_screen.dart';
+import 'package:amazone_clone/provider/user_provider.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../features/home/screens/home_screen.dart';
 
@@ -21,7 +24,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
   List<Widget> pages = [
     const HomeScreen(),
     const AccountScreen(),
-    const Center(child: Text("Cart Page")),
+    const CartScreen(),
   ];
 
   void updatePage(int page) {
@@ -32,6 +35,8 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
 
   @override
   Widget build(BuildContext context) {
+    final userCartLength = context.watch<UserProvider>().user.cart.length;
+
     return Scaffold(
       body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
@@ -83,7 +88,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
                   ),
                   child: Badge(
                       elevation: 0,
-                      badgeContent: const Text("2"),
+                      badgeContent: Text(userCartLength.toString()),
                       badgeColor: Colors.white,
                       child: const Icon(
                         Icons.shopping_cart_outlined,

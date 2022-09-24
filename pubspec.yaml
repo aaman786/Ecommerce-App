@@ -35,6 +35,9 @@ dependencies:
   cloudinary_public: ^0.12.0 #for storing images in api as we have only 512mb in mongo DB.
   cloudinary: ^1.0.3
   flutter_rating_bar: ^4.0.1
+  pay: ^1.0.11
+  intl: ^0.17.0
+  charts_flutter_new: ^0.12.0
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +51,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/gpay.json
   #   - images/a_dot_ham.jpeg
 
   # fonts:

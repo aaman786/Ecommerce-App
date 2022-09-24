@@ -1,8 +1,12 @@
 import 'package:amazone_clone/common/widgets/custom_button.dart';
 import 'package:amazone_clone/common/widgets/star.dart';
+import 'package:amazone_clone/features/product%20details/services/product_detail_services.dart';
+import 'package:amazone_clone/provider/user_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:amazone_clone/features/admin/models/product_model.dart';
+import 'package:amazone_clone/models/product_model.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
 import '../../../constants/global_variables.dart';
 import '../../search/screens/search_screen.dart';
 
@@ -19,6 +23,32 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  final ProductDetailsServices productDetailsServices =
+      ProductDetailsServices();
+
+  double avgRating = 0;
+  double myRating = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    ratingData();
+  }
+
+  void ratingData() {
+    double totalRating = 0;
+    for (int i = 0; i < widget.product.rating!.length; i++) {
+      totalRating += widget.product.rating![i].rating;
+      if (widget.product.rating![i].userId ==
+          Provider.of<UserProvider>(context, listen: false).user.id) {
+        myRating = widget.product.rating![i].rating;
+      }
+    }
+    if (avgRating != 0) {
+      avgRating = totalRating / widget.product.rating!.length;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +126,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(widget.product.id!),
-                const Star(ratting: 04),
+                Star(ratting: avgRating),
               ],
             ),
           ),
@@ -112,10 +142,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 .map((e) => Builder(
                     builder: (BuildContext context) => Image.network(
                           e,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                           height: 200,
                         )))
                 .toList(),
+            // items: widget.product.image!
+            //     .map((e) => Builder(
+            //         builder: (BuildContext context) => Image.network(
+            //               e.imageUrl,
+            //               fit: BoxFit.contain,
+            //               height: 200,
+            //             )))
+            //     .toList(),
             options: CarouselOptions(viewportFraction: 1, height: 300),
           ),
           Container(
@@ -160,12 +198,42 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: CustomButton(
-              onPressed: () {},
+              onPressed: () {
+                final ProductDetailsServices productDetailsServices =
+                    ProductDetailsServices();
+                productDetailsServices.addToCart(
+                    context: context, product: widget.product);
+              },
               text: "Add To Cart",
               color: const Color.fromRGBO(254, 216, 19, 1),
               textColor: Colors.black,
             ),
           ),
+          Container(
+            height: 05,
+            color: Colors.black12,
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              "Rate The Product",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+          ),
+          RatingBar.builder(
+            initialRating: myRating,
+            minRating: 1,
+            allowHalfRating: true,
+            direction: Axis.horizontal,
+            itemBuilder: (context, _) => const Icon(
+              Icons.star,
+              color: GlobalVariables.secondaryColor,
+            ),
+            onRatingUpdate: (rating) {
+              productDetailsServices.rateProduct(
+                  context: context, product: widget.product, rating: rating);
+            },
+          )
         ],
       )),
     );

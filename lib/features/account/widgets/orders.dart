@@ -1,5 +1,9 @@
+import 'package:amazone_clone/common/widgets/custom_loading_indicator.dart';
 import 'package:amazone_clone/constants/global_variables.dart';
+import 'package:amazone_clone/features/account/services/account_servicecs.dart';
 import 'package:amazone_clone/features/account/widgets/single_product.dart';
+import 'package:amazone_clone/features/order%20details/screens/order_details_screen.dart';
+import 'package:amazone_clone/models/order_model.dart';
 import 'package:flutter/material.dart';
 
 class Orders extends StatefulWidget {
@@ -10,48 +14,66 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
+  List<OrderModel>? orders;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchOrders();
+  }
+
+  void fetchOrders() async {
+    final AccountServices accountServices = AccountServices();
+    orders = await accountServices.fetchMyOrders(context: context);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: const EdgeInsets.only(left: 15),
-              child: const Text(
-                "Your Orders",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+    return orders == null
+        ? const CustomLoadingIndicator()
+        : Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: const Text(
+                      "Your Orders",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(right: 15),
+                    child: Text(
+                      "See all",
+                      style:
+                          TextStyle(color: GlobalVariables.selectedNavBarColor),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(right: 15),
-              child: Text(
-                "See all",
-                style: TextStyle(color: GlobalVariables.selectedNavBarColor),
-              ),
-            ),
-          ],
-        ),
-        Container(
-          height: 170,
-          padding: const EdgeInsets.only(left: 10, top: 10),
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: list.length,
-              itemBuilder: ((context, index) {
-                return SingleProduct(image: list[index]);
-              })),
-        )
-      ],
-    );
+              Container(
+                height: 170,
+                padding: const EdgeInsets.only(left: 10, top: 10),
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: orders!.length,
+                    itemBuilder: ((context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, OrderDetailsScreens.routeName,
+                              arguments: orders![index]);
+                        },
+                        child: SingleProduct(
+                            image: orders![index].products[0].images[0]),
+                      );
+                    })),
+              )
+            ],
+          );
   }
 }
-
-// temprory list
-
-List list = [
-  'https://images.unsplash.com/photo-1659535964542-63e75ddb28ef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60',
-  'https://images.unsplash.com/photo-1659535964542-63e75ddb28ef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60',
-  'https://images.unsplash.com/photo-1659535964542-63e75ddb28ef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60',
-];

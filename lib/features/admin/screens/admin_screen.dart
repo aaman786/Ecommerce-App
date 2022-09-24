@@ -1,5 +1,6 @@
-
 import 'package:amazone_clone/features/admin/products/screens/product_screen.dart';
+import 'package:amazone_clone/features/admin/screens/analytics_screen.dart';
+import 'package:amazone_clone/features/admin/screens/order_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../constants/global_variables.dart';
 
@@ -19,11 +20,8 @@ class _AdminScreenState extends State<AdminScreen> {
 
   List<Widget> pages = [
     const ProductsScreen(),
-    const Center(
-        child: Text(
-      "Analytics Page",
-    )),
-    const Center(child: Text("Cart Page")),
+    const AnalyticsScreen(),
+    const OrderScreen(),
   ];
 
   void updatePage(int page) {
@@ -113,7 +111,6 @@ class _AdminScreenState extends State<AdminScreen> {
               ),
               label: "Home"),
         ],
-        
       ),
     );
   }

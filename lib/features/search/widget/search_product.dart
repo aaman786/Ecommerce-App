@@ -2,7 +2,7 @@
 import 'package:amazone_clone/common/widgets/star.dart';
 import 'package:flutter/material.dart';
 
-import 'package:amazone_clone/features/admin/models/product_model.dart';
+import 'package:amazone_clone/models/product_model.dart';
 
 class SearchedProduct extends StatelessWidget {
   final ProductModel product;
@@ -19,7 +19,9 @@ class SearchedProduct extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             children: [
-              Image.network(product.images[0],
+              Image.network(
+                product.images[0],
+                // product.image![0].toJson(),
                   fit: BoxFit.fitHeight, height: 135, width: 135),
               Column(
                 children: [

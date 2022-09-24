@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:amazone_clone/constants/error_handling.dart';
 import 'package:amazone_clone/constants/global_variables.dart';
 import 'package:amazone_clone/constants/utils.dart';
-import 'package:amazone_clone/features/admin/models/product_model.dart';
+import 'package:amazone_clone/features/admin/model/sales_model.dart';
+import 'package:amazone_clone/models/image_model.dart';
+import 'package:amazone_clone/models/order_model.dart';
+import 'package:amazone_clone/models/product_model.dart';
 import 'package:amazone_clone/provider/user_provider.dart';
 import 'package:cloudinary/cloudinary.dart';
 import 'package:flutter/cupertino.dart';
@@ -34,9 +37,10 @@ class AdminServices {
 
       // final cloudinary = CloudinaryPublic("aman0980", "kmatym3q");
 
-
       final cloudy = Cloudinary.unsignedConfig(cloudName: "aman0980");
       List<String> imageUrls = [];
+      // List<ImagesModel> imageUrls = [];
+
       for (var i = 0; i < images.length; i++) {
         final response = await cloudy.unsignedUpload(
             uploadPreset: "kmatym3q", folder: name, file: images[i].path);
@@ -46,6 +50,7 @@ class AdminServices {
 
         imageUrls.add(url);
         // Images imgs = Images(url: url, publicId: publicId);
+        // ImagesModel imgs = ImagesModel(imageUrl: url, publicId: publicId);
         // imageUrls.add(imgs);
       }
 
@@ -130,5 +135,90 @@ class AdminServices {
     } catch (e) {
       showSnackBar(context, e.toString());
     }
+  }
+
+  Future<List<OrderModel>> fetchAllOrders(BuildContext context) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<OrderModel> orderList = [];
+    try {
+      http.Response response = await http.get(
+        Uri.parse("$uri/admin/get-orders"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+      httpErrorHandling(
+          response: response,
+          context: context,
+          onSuccess: () {
+            for (var i = 0; i < jsonDecode(response.body).length; i++) {
+              orderList.add(
+                OrderModel.fromJson(
+                  jsonEncode(jsonDecode(response.body)[i]),
+                ),
+              );
+            }
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return orderList;
+  }
+
+  Future<void> changeOrderStatus(
+      {required BuildContext context,
+      required int status,
+      required OrderModel order,
+      required VoidCallback onSucess}) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    try {
+      http.Response response = await http.post(
+        Uri.parse("$uri/admin/change-order-status"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+        body: jsonEncode({'id': order.id, 'status': status}),
+      );
+      httpErrorHandling(
+        response: response,
+        context: context,
+        onSuccess: onSucess,
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<Map<String, dynamic>> getEarning(BuildContext context) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<SalesModel> sales = [];
+    int totalEarinig = 0;
+    try {
+      http.Response response = await http.get(
+        Uri.parse("$uri/admin/analytics"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+      httpErrorHandling(
+          response: response,
+          context: context,
+          onSuccess: () {
+            var res = jsonDecode(response.body);
+            totalEarinig = res['totalEarning'];
+            sales = [
+              SalesModel('Mobiles', res['mobileEarning']),
+              SalesModel('Essential', res['esssentialEarning']),
+              SalesModel('Appliance', res['appliancsEarning']),
+              SalesModel('Book', res['bookEarning']),
+            ];
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return {'sales': sales, 'totalEarning': totalEarinig,};
   }
 }

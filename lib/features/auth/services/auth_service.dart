@@ -8,11 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../models/user.dart';
-
+import '../../../models/user_model.dart';
 
 class AuthService {
-
   void signUpUser(
       {required String email,
       required BuildContext context,
@@ -26,7 +24,8 @@ class AuthService {
           password: password,
           type: '',
           address: '',
-          token: '');
+          token: '',
+          cart: []);
       Response response = await post(Uri.parse("$uri/api/signup"),
           body: user.toJson(),
           headers: <String, String>{

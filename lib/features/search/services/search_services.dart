@@ -7,7 +7,7 @@ import '../../../../constants/error_handling.dart';
 import '../../../../constants/global_variables.dart';
 import '../../../../constants/utils.dart';
 import '../../../../provider/user_provider.dart';
-import '../../admin/models/product_model.dart';
+import '../../../models/product_model.dart';
 
 class SearchService {
   Future<List<ProductModel>> fetchSearchedProduct(

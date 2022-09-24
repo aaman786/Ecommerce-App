@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:amazone_clone/common/widgets/custom_loading_indicator.dart';
-import 'package:amazone_clone/features/product%20details/screens/product_details.dart';
+import 'package:amazone_clone/features/product%20details/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/global_variables.dart';
-import '../../admin/models/product_model.dart';
+import '../../../models/product_model.dart';
 import '../services/home_services.dart';
 
 class CategoryDealsScreen extends StatefulWidget {
@@ -83,7 +83,8 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                       return GestureDetector(
                         onTap: () {
                           Navigator.pushNamed(
-                              context, ProductDetailsScreen.routeName,arguments: productData);
+                              context, ProductDetailsScreen.routeName,
+                              arguments: productData);
                         },
                         child: Column(children: [
                           SizedBox(
@@ -95,7 +96,10 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(10),
-                                child: Image.network(productData.images[0]),
+                                child: Image.network(
+                                  productData.images[0],
+                                  // productData.image![0].toJson(),
+                                ),
                               ),
                             ),
                           ),

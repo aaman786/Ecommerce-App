@@ -38,6 +38,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     _productDescriptionController.dispose();
     _productPriceController.dispose();
     _productQuantityController.dispose();
+    
 
     super.dispose();
   }

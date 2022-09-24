@@ -4,9 +4,10 @@ const mongoose = require("mongoose");
 
 // other files import
 const authRouter = require("./routes/auth");
-const Product = require("./model/product");
+const {Product} = require("./model/product");
 const adminRouter = require("./routes/admin");
 const productRouter = require("./routes/product");
+const userRouter = require("./routes/user");
 
 // INIT
 const PORT = 3000;
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(authRouter);
 app.use(adminRouter);
 app.use(productRouter);
+app.use(userRouter);
 
 // connections
 mongoose
