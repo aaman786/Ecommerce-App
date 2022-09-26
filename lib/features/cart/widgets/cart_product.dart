@@ -39,8 +39,9 @@ class _CartProductState extends State<CartProduct> {
           margin: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             children: [
-              Image.network(product.images[0],
-                  // product.image![0].toJson(),
+              Image.network(
+                  // product.images[0],
+                  product.image[0].toJson(),
                   fit: BoxFit.fitHeight,
                   height: 135,
                   width: 135),

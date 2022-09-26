@@ -27,6 +27,7 @@ class _AdminScreenState extends State<AdminScreen> {
   void updatePage(int page) {
     setState(() {
       _page = page;
+      
     });
   }
 
@@ -109,7 +110,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 ),
                 child: const Icon(Icons.all_inbox_outlined),
               ),
-              label: "Home"),
+              label: "Orders"),
         ],
       ),
     );

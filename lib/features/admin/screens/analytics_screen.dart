@@ -20,7 +20,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
   @override
   Widget build(BuildContext context) {
     return earning == null || totalSales == null
-        ? const CustomLoadingIndicator()
+        ? Center(child: const Text("No Details"))
+        // ? const CustomLoadingIndicator()
         : Column(
             children: [
               Text(

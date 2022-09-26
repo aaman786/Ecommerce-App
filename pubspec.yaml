@@ -32,8 +32,7 @@ dependencies:
   carousel_slider: ^4.1.1
   dotted_border: ^2.0.0+2
   file_picker: ^5.0.1
-  cloudinary_public: ^0.12.0 #for storing images in api as we have only 512mb in mongo DB.
-  cloudinary: ^1.0.3
+  cloudinary: ^1.0.3 #for uploading images or files in db
   flutter_rating_bar: ^4.0.1
   pay: ^1.0.11
   intl: ^0.17.0

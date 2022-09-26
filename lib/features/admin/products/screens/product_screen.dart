@@ -68,8 +68,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           SizedBox(
                             height: 140,
                             child: SingleProduct(
-                              image: productData.images[0],
-                              // image: productData.image![0].imageUrl,
+                              // image: productData.images[0],
+                              image: productData.image[0].imageUrl,
                             ),
                           ),
                           Row(

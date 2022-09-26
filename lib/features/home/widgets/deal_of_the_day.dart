@@ -47,7 +47,8 @@ class _DealOfTheDayState extends State<DealOfTheDay> {
                   ),
                 ),
                 Image.network(
-                  product!.images[0],
+                  product!.image[0].imageUrl,
+                  // product!.images[0],
                   height: 235,
                   fit: BoxFit.fitHeight,
                 ),
@@ -69,10 +70,10 @@ class _DealOfTheDayState extends State<DealOfTheDay> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: product!.images
+                    children: product!.image
                         .map(
                           (e) => Image.network(
-                            e,
+                            e.imageUrl,
                             fit: BoxFit.fitWidth,
                             width: 100,
                             height: 100,

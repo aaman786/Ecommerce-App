@@ -2,7 +2,7 @@ const express = require("express");
 const adminRouter = express.Router();
 const admin = require("../middleware/admin");
 const { Product } = require("../model/product");
-const { Order } = require("../model/order");
+const Order  = require("../model/order");
 
 // ADD PRODUCT
 adminRouter.post("/admin/add-product", admin, async (req, res) => {
@@ -50,7 +50,7 @@ adminRouter.get("/admin/get-orders", admin, async (req, res) => {
     const orders = await Order.find({});
     res.json(orders);
   } catch (e) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: e.message });
   }
 });
 

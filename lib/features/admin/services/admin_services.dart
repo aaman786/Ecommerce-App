@@ -26,20 +26,9 @@ class AdminServices {
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
-      // final cloudinary = CloudinaryPublic("aman0980", "kmatym3q");
-      // List<String> imageUrls = [];
-      // for (var i = 0; i < images.length; i++) {
-      //   CloudinaryResponse cloudinaryResponse = await cloudinary
-      //       .uploadFile(CloudinaryFile.fromFile(images[i].path, folder: name));
-
-      //   imageUrls.add(cloudinaryResponse.secureUrl);
-      // }
-
-      // final cloudinary = CloudinaryPublic("aman0980", "kmatym3q");
-
       final cloudy = Cloudinary.unsignedConfig(cloudName: "aman0980");
-      List<String> imageUrls = [];
-      // List<ImagesModel> imageUrls = [];
+
+      List<ImagesModel> imageUrls = [];
 
       for (var i = 0; i < images.length; i++) {
         final response = await cloudy.unsignedUpload(
@@ -48,10 +37,9 @@ class AdminServices {
         String url = response.secureUrl!;
         String publicId = response.publicId!;
 
-        imageUrls.add(url);
-        // Images imgs = Images(url: url, publicId: publicId);
-        // ImagesModel imgs = ImagesModel(imageUrl: url, publicId: publicId);
-        // imageUrls.add(imgs);
+        ImagesModel imagesModel =
+            ImagesModel(imageUrl: url, publicId: publicId);
+        imageUrls.add(imagesModel);
       }
 
       ProductModel productModel = ProductModel(
@@ -59,16 +47,17 @@ class AdminServices {
           description: description,
           quantity: quantity,
           price: price,
-          images: imageUrls,
+          image: imageUrls,
           category: category);
 
-      http.Response response =
-          await http.post(Uri.parse('$uri/admin/add-product'),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-                'x-auth-token': userProvider.user.token,
-              },
-              body: productModel.toJson());
+      http.Response response = await http.post(
+        Uri.parse('$uri/admin/add-product'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+        body: productModel.toJson(),
+      );
 
       httpErrorHandling(
           response: response,
@@ -119,8 +108,22 @@ class AdminServices {
     required VoidCallback onSuccess,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final cloudy = Cloudinary.signedConfig(
+        apiKey: "291267363297935",
+        apiSecret: "qq0VMB9fM-1XIj4_sV4B9Fia72s",
+        cloudName: "aman0980");
 
     try {
+      List<ImagesModel> imagedata = productModel.image;
+      for (var i = 0; i < imagedata.length; i++) {
+        CloudinaryResponse cloudinaryResponse = await cloudy.destroy(
+            imagedata[i].publicId.toString(),
+            url: imagedata[i].imageUrl,
+            invalidate: true);
+
+        print("cloudy response ~~~~~~~ ${cloudinaryResponse}");
+      }
+
       http.Response response = await http.post(
         Uri.parse('$uri/admin/delete-product'),
         headers: <String, String>{
@@ -219,6 +222,9 @@ class AdminServices {
     } catch (e) {
       showSnackBar(context, e.toString());
     }
-    return {'sales': sales, 'totalEarning': totalEarinig,};
+    return {
+      'sales': sales,
+      'totalEarning': totalEarinig,
+    };
   }
 }

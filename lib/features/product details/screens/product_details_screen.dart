@@ -138,22 +138,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ),
           CarouselSlider(
-            items: widget.product.images
-                .map((e) => Builder(
-                    builder: (BuildContext context) => Image.network(
-                          e,
-                          fit: BoxFit.contain,
-                          height: 200,
-                        )))
-                .toList(),
-            // items: widget.product.image!
+            // items: widget.product.images
             //     .map((e) => Builder(
             //         builder: (BuildContext context) => Image.network(
-            //               e.imageUrl,
+            //               e,
             //               fit: BoxFit.contain,
             //               height: 200,
             //             )))
             //     .toList(),
+            items: widget.product.image
+                .map((e) => Builder(
+                    builder: (BuildContext context) => Image.network(
+                          e.imageUrl,
+                          fit: BoxFit.contain,
+                          height: 200,
+                        )))
+                .toList(),
             options: CarouselOptions(viewportFraction: 1, height: 300),
           ),
           Container(

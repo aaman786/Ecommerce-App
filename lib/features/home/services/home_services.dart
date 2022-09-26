@@ -47,7 +47,7 @@ class HomeServices {
         description: '',
         quantity: 0.0,
         price: 0.0,
-        images: [],
+        image: [],
         category: '');
     try {
       http.Response response = await http.get(

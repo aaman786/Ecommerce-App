@@ -32,13 +32,17 @@ class _OrdeDdetailsStateScreens extends State<OrderDetailsScreens> {
   }
 
 // !!! only for the admin
-  void changeOrderStatus(int status){
-    final AdminServices adminServices =AdminServices();
-    adminServices.changeOrderStatus(context: context, status: status, order: widget.order, onSucess: (){
-      setState(() {
-        currentStep += 1;
-      });
-    });
+  void changeOrderStatus(int status) {
+    final AdminServices adminServices = AdminServices();
+    adminServices.changeOrderStatus(
+        context: context,
+        status: status,
+        order: widget.order,
+        onSucess: () {
+          setState(() {
+            currentStep += 1;
+          });
+        });
   }
 
   @override
@@ -83,7 +87,8 @@ class _OrdeDdetailsStateScreens extends State<OrderDetailsScreens> {
                         Padding(
                           padding: const EdgeInsets.all(9.0),
                           child: Image.network(
-                            widget.order.products[i].images[0],
+                            // widget.order.products[i].images[0],
+                            widget.order.products[i].image[0].imageUrl,
                             height: 110,
                             fit: BoxFit.fill,
                           ),
@@ -119,7 +124,9 @@ class _OrdeDdetailsStateScreens extends State<OrderDetailsScreens> {
                 currentStep: currentStep,
                 controlsBuilder: (context, details) {
                   if (user.type == 'admin') {
-                    return CustomButton(onPressed: ()=> changeOrderStatus(details.currentStep), text: 'Done');
+                    return CustomButton(
+                        onPressed: () => changeOrderStatus(details.currentStep),
+                        text: 'Done');
                   }
                   return const SizedBox();
                 },

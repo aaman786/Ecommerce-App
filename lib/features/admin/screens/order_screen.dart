@@ -2,7 +2,6 @@ import 'package:amazone_clone/common/widgets/custom_loading_indicator.dart';
 import 'package:amazone_clone/features/account/widgets/single_product.dart';
 import 'package:amazone_clone/features/admin/services/admin_services.dart';
 import 'package:amazone_clone/features/order%20details/screens/order_details_screen.dart';
-import 'package:amazone_clone/features/product%20details/screens/product_details_screen.dart';
 import 'package:amazone_clone/models/order_model.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +22,7 @@ class _OrderScreenState extends State<OrderScreen> {
     fetchOrders();
   }
 
-  Future<void> fetchOrders() async {
+  void fetchOrders() async {
     orders = await adminServices.fetchAllOrders(context);
     setState(() {});
   }
@@ -45,7 +44,10 @@ class _OrderScreenState extends State<OrderScreen> {
                 },
                 child: SizedBox(
                   height: 140,
-                  child: SingleProduct(image: orderData.products[0].images[0]),
+                  child: SingleProduct(
+                    // image: orderData.products[0].image[0],
+                    image: orderData.products[0].image[0].imageUrl,
+                  ),
                 ),
               );
             },

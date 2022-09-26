@@ -97,8 +97,8 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: Image.network(
-                                  productData.images[0],
-                                  // productData.image![0].toJson(),
+                                  // productData.images[0],
+                                  productData.image[0].toJson(),
                                 ),
                               ),
                             ),

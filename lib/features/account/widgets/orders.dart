@@ -69,7 +69,9 @@ class _OrdersState extends State<Orders> {
                               arguments: orders![index]);
                         },
                         child: SingleProduct(
-                            image: orders![index].products[0].images[0]),
+                          // image: orders![index].products[0].images[0],
+                          image: orders![index].products[0].image[0].imageUrl,
+                        ),
                       );
                     })),
               )

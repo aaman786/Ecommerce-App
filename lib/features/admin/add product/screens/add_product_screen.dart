@@ -1,14 +1,11 @@
 import 'dart:io';
-
 import 'package:amazone_clone/common/widgets/custom_button.dart';
 import 'package:amazone_clone/common/widgets/custom_textfield.dart';
 import 'package:amazone_clone/constants/utils.dart';
-import 'package:amazone_clone/features/admin/screens/admin_screen.dart';
 import 'package:amazone_clone/features/admin/services/admin_services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../constants/global_variables.dart';
 
 class AddProductScreen extends StatefulWidget {
